@@ -27,10 +27,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAllOrigins", builder =>
     {
         builder
-            .WithOrigins("http://localhost:4200") // URL específica de tu aplicación Angular
+            .WithOrigins(
+                "http://localhost:4200",
+                "https://biodigestor-app.web.app",
+                "https://biodigestor-app.firebaseapp.com"
+            )
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials(); // Esto permite el envío de credenciales
+            .AllowCredentials();
     });
 });
 
@@ -44,8 +48,8 @@ builder.Services.AddAuthentication("CookieAuth")
     {
         options.Cookie.Name = "AuthCookie";
         options.LoginPath = "/Auth/login";
-        options.Cookie.SameSite = SameSiteMode.None; // Importante para CORS
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Recomendado para producción
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     });
 
 // Registrar el filtro personalizado para la autorización por DNI
